@@ -60,7 +60,7 @@ export function Header() {
         >
           <option value="all">All Applications</option>
           <option value="netra">Netra</option>
-          <option value="kavacha">Kavacha</option>
+          <option value="kavacha">NextGen2</option>
           <option value="blackline">Blackline</option>
         </select>
 

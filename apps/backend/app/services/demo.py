@@ -92,8 +92,8 @@ class DemoDataService:
             },
             {
                 "id": "kavacha",
-                "name": "Kavacha",
-                "description": "Security and access management",
+                "name": "NextGen2",
+                "description": "Autonomous test automation & security gateway",
                 "enabled": True,
                 "health_monitoring": True,
                 "logs": True,

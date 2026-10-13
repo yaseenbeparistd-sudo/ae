@@ -1,7 +1,8 @@
 'use client';
 
-import UserActivityPanel from './users/page';
+import BlacklineOverview from './(monitor)/page';
 
 export default function ApplicationDetailPage() {
-  return <UserActivityPanel />;
+  return <BlacklineOverview />;
 }
+

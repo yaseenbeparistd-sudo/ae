@@ -89,7 +89,7 @@ export default function KavachaLayout({ children }: { children: React.ReactNode 
     );
   }
 
-  const appName = app?.name || "Kavacha";
+  const appName = app?.name === "Kavacha" ? "NextGen2" : (app?.name || "NextGen2");
   const dbStatus = kavachaHealth?.status || "checking";
   const isDbConnected = dbStatus === "connected";
 

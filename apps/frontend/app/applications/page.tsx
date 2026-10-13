@@ -16,10 +16,10 @@ const apps = [
   },
   {
     id: 'kavacha',
-    name: 'Kavacha',
-    description: 'Security and access management.',
+    name: 'NextGen2',
+    description: 'Autonomous test automation & security gateway.',
     icon: Shield,
-    status: 'warning',
+    status: 'healthy',
     environment: 'prod',
     color: 'var(--ov-info)',
   },

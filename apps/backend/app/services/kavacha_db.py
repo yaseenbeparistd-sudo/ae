@@ -122,6 +122,9 @@ def get_overview_summary() -> dict:
         "time_saved_hours": round(final_time_saved, 1),
         "resource_saved_fte": round(final_time_saved / 160.0, 1) if final_time_saved > 0 else 0,
         "cost_saved_usd": round(final_time_saved * 50.0, 2),
+        "cost_saved_inr": round(final_time_saved * 800.0, 2),
+        "total_execution_duration_ms": _scalar("SELECT COALESCE(SUM(duration_ms), 0) FROM executions") or 0,
+        "avg_execution_duration_ms": float(_scalar("SELECT COALESCE(AVG(duration_ms), 0) FROM executions") or 0),
     }
 
 
@@ -187,24 +190,25 @@ def get_app_business_impact(limit: int = 5) -> list[dict]:
         LEFT JOIN executions e ON e.generation_id = g.id
         GROUP BY a.id, a.name
         HAVING COUNT(DISTINCT tp.id) > 0
-        ORDER BY total_test_cases DESC
+        ORDER BY total_test_cases DESC, total_executions DESC, a.id ASC
         LIMIT %s
     """
     rows = _query(query, (limit,))
     
+    palette = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899']
     results = []
-    for row in rows:
+    for idx, row in enumerate(rows):
         # Manual time = 20 mins per test case
         manual_time_hours = (row['total_test_cases'] * 20.0) / 60.0
         automated_time_hours = float(row['automated_time_sec']) / 3600.0
-        time_saved_hours = max(0.0, manual_time_hours - automated_time_hours)
+        time_saved_hours = max(0.1, manual_time_hours - automated_time_hours)
         
         pass_rate = (row['pass_count'] / row['total_executions'] * 100) if row['total_executions'] > 0 else 0
         
         # Calculate business priority heuristically
         priority = 'Medium'
-        if time_saved_hours > 5:
-            priority = 'Critical'
+        if time_saved_hours > 5 or row['fail_count'] > 0:
+            priority = 'Critical' if row['fail_count'] > 0 else 'High'
         elif time_saved_hours > 2:
             priority = 'High'
             
@@ -216,13 +220,52 @@ def get_app_business_impact(limit: int = 5) -> list[dict]:
             "name": row['name'],
             "time_saved_hours": round(time_saved_hours, 1),
             "cost_savings_usd": round(time_saved_hours * 50.0, 2),
+            "cost_savings_inr": round(time_saved_hours * 800.0, 2),
             "automation_coverage": round(coverage),
             "pass_rate": round(pass_rate),
             "critical_issues": row['fail_count'],
-            "business_priority": priority
+            "business_priority": priority,
+            "color": palette[idx % len(palette)]
         })
         
     return results
+
+
+def get_recent_failures(limit: int = 5) -> list[dict]:
+    """Retrieve recent failed or errored executions with human-friendly context."""
+    query = """
+        SELECT e.id, e.result, e.duration_ms, e.executed_at, e.environment,
+               e.triggered_by, e.output,
+               tp.title AS test_case_title,
+               a.name AS app_name,
+               b.status AS batch_status
+        FROM executions e
+        JOIN generations g ON e.generation_id = g.id
+        JOIN test_case_proposals tp ON g.test_case_proposal_id = tp.id
+        JOIN applications a ON tp.application_id = a.id
+        LEFT JOIN batches b ON e.batch_id = b.id
+        WHERE e.result IN ('fail', 'error')
+        ORDER BY e.executed_at DESC LIMIT %s
+    """
+    rows = _query(query, (limit,))
+    failures = []
+    for r in rows:
+        severity = 'Critical' if (r['environment'] == 'prod' or r['result'] == 'error') else 'High'
+        status = 'Open' if r['batch_status'] in ('running', 'cancelled') else 'In review'
+        dt = r['executed_at']
+        found_str = dt.strftime("%b %d, %H:%M") if dt else "Recent"
+        
+        failures.append({
+            "id": r['id'],
+            "application": r['app_name'],
+            "issue": r['test_case_title'],
+            "severity": severity,
+            "status": status,
+            "found": found_str,
+            "environment": r['environment'],
+            "duration_ms": r['duration_ms']
+        })
+    return failures
 
 
 # ── Test Case Proposals ──────────────────────────────────────────────────────

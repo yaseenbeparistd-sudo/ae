@@ -12,6 +12,7 @@ from app.services.kavacha_db import (
     get_users, get_user_count,
     get_applications, get_application_count,
     get_app_business_impact,
+    get_recent_failures,
     get_test_cases, get_test_case_stats,
     get_generations, get_generation_stats,
     get_executions, get_execution_stats,
@@ -235,3 +236,13 @@ async def kavacha_app_maps(
     offset: int = Query(0, ge=0),
 ):
     return _serialise({"items": get_app_maps(limit, offset)})
+
+
+# ── Recent Failures in Plain Language ─────────────────────────────────────────
+
+@router.get("/recent-failures")
+async def kavacha_recent_failures(limit: int = Query(5, ge=1, le=50)):
+    """Recent failed test executions with human-readable diagnostic context."""
+    return _serialise(get_recent_failures(limit=limit))
+
+
