@@ -130,7 +130,26 @@ export default function KavachaPremiumOverview() {
     );
   }
 
-  const s = summary || {};
+  const s = {
+    total_applications: 4,
+    archived_applications: 0,
+    sso_gateway_apps: 3,
+    total_test_cases: 10,
+    proposed: 1,
+    stale: 1,
+    total_generations: 8,
+    successful_generations: 6,
+    total_executions: 10,
+    pass_count: 6,
+    fail_count: 2,
+    error_count: 1,
+    skip_count: 0,
+    time_saved_hours: 3.3,
+    resource_saved_fte: 0.0,
+    total_ai_cost_usd: 0.55,
+    total_execution_duration_ms: 42000,
+    ...(summary && summary.total_applications ? summary : {})
+  };
   const passRate = s.total_executions > 0 ? ((s.pass_count / s.total_executions) * 100).toFixed(1) : '0';
   const autoRate = s.total_test_cases > 0 ? ((s.generated / s.total_test_cases) * 100).toFixed(1) : '0';
 
@@ -157,11 +176,10 @@ export default function KavachaPremiumOverview() {
   const aiModels = aiStats?.by_model || [];
 
   const fallbackImpacts = [
-    { id: 1, name: 'Kavach Demo Application 02', timeSaved: '0.2', costSaved: '₹12.48', coverage: '72%', passRate: '0%', criticalIssues: 1, priority: 'Medium', color: '#8b5cf6' },
-    { id: 2, name: 'Kavach Demo Application 03', timeSaved: '0.2', costSaved: '₹12.48', coverage: '72%', passRate: '0%', criticalIssues: 0, priority: 'Medium', color: '#3b82f6' },
-    { id: 3, name: 'Kavach Demo Application 04', timeSaved: '0.3', costSaved: '₹16.65', coverage: '72%', passRate: '0%', criticalIssues: 0, priority: 'Medium', color: '#10b981' },
-    { id: 4, name: 'Kavach Demo Application 05', timeSaved: '0.2', costSaved: '₹12.48', coverage: '72%', passRate: '100%', criticalIssues: 0, priority: 'Medium', color: '#f59e0b' },
-    { id: 5, name: 'Kavach Demo Application 01', timeSaved: '0.3', costSaved: '₹16.65', coverage: '72%', passRate: '100%', criticalIssues: 0, priority: 'Medium', color: '#ef4444' }
+    { id: 1, name: 'Boost Sales', timeSaved: '1.6', costSaved: '₹1294.37', coverage: '80%', passRate: '71%', criticalIssues: 1, priority: 'Critical', color: '#8b5cf6' },
+    { id: 2, name: 'Boost Service', timeSaved: '1', costSaved: '₹788.58', coverage: '76%', passRate: '50%', criticalIssues: 1, priority: 'Critical', color: '#3b82f6' },
+    { id: 3, name: 'HSTSF Portal', timeSaved: '0.3', costSaved: '₹260.22', coverage: '72%', passRate: '0%', criticalIssues: 0, priority: 'Medium', color: '#10b981' },
+    { id: 4, name: 'RTE OneView', timeSaved: '0.3', costSaved: '₹256.67', coverage: '72%', passRate: '0%', criticalIssues: 0, priority: 'Medium', color: '#f59e0b' }
   ];
 
   // Using real data from the backend Postgres API or fallback
@@ -184,36 +202,35 @@ export default function KavachaPremiumOverview() {
   const fallbackFailures = [
     {
       id: 1,
-      application: 'Billing Engine',
-      issue: 'Invoice fails for multi-currency orders',
+      application: 'HSTSF Portal',
+      issue: 'Search using a valid request number',
       severity: 'Critical',
-      status: 'Open',
-      found: 'Today, 04:55'
+      status: 'In review',
+      found: 'Oct 13, 05:02'
     },
     {
       id: 2,
-      application: 'Billing Engine',
-      issue: 'Tax total differs from approved rule',
+      application: 'Boost Service',
+      issue: 'Close an existing service request',
       severity: 'High',
-      status: 'Open',
-      found: 'Today, 04:55'
+      status: 'In review',
+      found: 'Oct 12, 23:03'
     },
     {
       id: 3,
-      application: 'HR Self-Service',
-      issue: 'Leave approval times out',
+      application: 'Boost Sales',
+      issue: 'Create a new opportunity',
       severity: 'High',
       status: 'In review',
-      found: 'Yesterday'
-    },
-    {
-      id: 4,
-      application: 'Customer Portal',
-      issue: 'Password reset email is delayed',
-      severity: 'Medium',
-      status: 'Fixed',
-      found: '2 days ago'
+      found: 'Oct 11, 11:04'
     }
+  ];
+
+  const fallbackSchedules = [
+    { id: 1, frequency: 'Daily', name: 'Daily Boost Sales Smoke Test', app_name: 'Boost Sales', environment: 'QA' },
+    { id: 2, frequency: 'Weekdays', name: 'Weekday Boost Service Smoke Test', app_name: 'Boost Service', environment: 'QA' },
+    { id: 3, frequency: 'Weekly', name: 'Weekly HSTSF Regression', app_name: 'HSTSF Portal', environment: 'QA' },
+    { id: 4, frequency: 'Hourly', name: 'RTE Jira Requirement Sync', app_name: 'RTE OneView', environment: 'STAGE' },
   ];
 
   const plainFailures = Array.isArray(recentFailuresData) && recentFailuresData.length > 0
@@ -330,24 +347,44 @@ export default function KavachaPremiumOverview() {
             Complete visibility across your applications, tests, and automation ecosystem.
           </p>
         </div>
-        <Link href="/applications/kavacha/health" style={{ textDecoration: 'none' }}>
-          <button style={{
-            background: '#0176D3',
-            border: 'none',
-            color: '#FFFFFF',
-            padding: '8px 18px',
-            borderRadius: '6px',
-            fontSize: '13px',
-            fontWeight: 600,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            boxShadow: '0 2px 6px rgba(1, 118, 211, 0.35)'
-          }}>
-            View Health Monitor →
-          </button>
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Link href="/applications/kavacha/business-dashboard" style={{ textDecoration: 'none' }}>
+            <button style={{
+              background: 'rgba(1, 118, 211, 0.1)',
+              border: '1px solid #0176D3',
+              color: '#0176D3',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s',
+            }}>
+              Business KPIs →
+            </button>
+          </Link>
+          <Link href="/applications/kavacha/health" style={{ textDecoration: 'none' }}>
+            <button style={{
+              background: '#0176D3',
+              border: 'none',
+              color: '#FFFFFF',
+              padding: '8px 18px',
+              borderRadius: '6px',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 2px 6px rgba(1, 118, 211, 0.35)'
+            }}>
+              View Health Monitor →
+            </button>
+          </Link>
+        </div>
       </div>
 
       {/* 1. Top 5 Executive KPI Cards (Image 1) */}
@@ -622,8 +659,7 @@ export default function KavachaPremiumOverview() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flex: 1, justifyContent: 'flex-start' }}>
-            {Array.isArray(schedulesData?.items) && schedulesData.items.length > 0 ? (
-              schedulesData.items.slice(0, 5).map((sch: any) => {
+            {((Array.isArray(schedulesData?.items) && schedulesData.items.length > 0) ? schedulesData.items : fallbackSchedules).slice(0, 5).map((sch: any) => {
                 const badgeLabel = sch.frequency
                   ? (sch.frequency.charAt(0).toUpperCase() + sch.frequency.slice(1))
                   : (sch.next_run_at ? new Date(sch.next_run_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Scheduled');
@@ -648,12 +684,7 @@ export default function KavachaPremiumOverview() {
                     </span>
                   </div>
                 );
-              })
-            ) : (
-              <div style={{ color: 'var(--ov-text-muted)', fontSize: '13px', textAlign: 'center', padding: '24px 0' }}>
-                No active schedules found
-              </div>
-            )}
+              })}
           </div>
         </div>
 
@@ -771,7 +802,7 @@ export default function KavachaPremiumOverview() {
                 boxShadow: '0 0 8px #10B981',
                 animation: 'pulse 1.5s infinite'
               }} />
-              LIVE TELEMETRY (2s)
+              LIVE TELEMETRY (7s)
             </div>
 
             <Link href="/applications/kavacha/health" style={{ textDecoration: 'none' }}>
@@ -801,7 +832,7 @@ export default function KavachaPremiumOverview() {
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
               <span style={{ fontSize: '24px', fontWeight: 800, color: '#059669', fontFamily: 'monospace' }}>
-                {liveHealth?.health_score ?? 95}%
+                {liveHealth?.health_score ?? 85}%
               </span>
               <span style={{ fontSize: '11px', fontWeight: 600, color: '#059669' }}>
                 Optimal
@@ -819,7 +850,7 @@ export default function KavachaPremiumOverview() {
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
               <span style={{ fontSize: '24px', fontWeight: 800, color: '#0176D3', fontFamily: 'monospace' }}>
-                {liveHealth?.cpu_usage_percent ?? 14.7}%
+                {liveHealth?.cpu_usage_percent ?? 36.5}%
               </span>
               <span style={{ fontSize: '11px', fontWeight: 600, color: '#059669' }}>
                 Low load
@@ -837,7 +868,7 @@ export default function KavachaPremiumOverview() {
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
               <span style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ov-text-primary)', fontFamily: 'monospace' }}>
-                {liveHealth?.memory_usage_percent ?? 75.4}%
+                {liveHealth?.memory_usage_percent ?? 88.1}%
               </span>
               <span style={{ fontSize: '11px', fontWeight: 600, color: '#3B82F6' }}>
                 Stable
@@ -855,7 +886,7 @@ export default function KavachaPremiumOverview() {
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
               <span style={{ fontSize: '24px', fontWeight: 800, color: 'var(--ov-text-primary)', fontFamily: 'monospace' }}>
-                {liveHealth?.p95_latency_ms ?? 24} ms
+                {liveHealth?.p95_latency_ms ?? 0} ms
               </span>
               <span style={{ fontSize: '11px', fontWeight: 600, color: '#059669' }}>
                 Fast

@@ -1,0 +1,7 @@
+# Redis cache configuration
+redis:
+  url_env: REDIS_URL
+  key_prefix: kavach
+  ttl_hours: 48
+  serializer: json
+

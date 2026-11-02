@@ -1,0 +1,38 @@
+# Business flow mapping rules — ordered, first match wins
+match:
+  field: title
+  case_sensitive: false
+  strategy: first_match
+
+unmapped_label: unmapped
+non_defect_flows: [access_security]
+
+rules:
+  - order: 1
+    flow: order_to_cash
+    keywords: ["sales order", "order management", "stuck", "invoice", "pricing", "credit note"]
+  - order: 2
+    flow: procure_to_pay
+    keywords: ["purchase order", "receipt", "voucher", "accounts payable", "procurement", "coupa"]
+  - order: 3
+    flow: finance_month_end
+    keywords: ["general ledger", "month end", "vat", "intercompany", "reconciliation", "mastersaf", "tax"]
+  - order: 4
+    flow: inventory
+    keywords: ["inventory", "warehouse", "lot", "stock", "retrigger", "commitment", "uom", "item master", "swisslog", "dclink"]
+  - order: 5
+    flow: shipping
+    keywords: ["shipping", "shipment", "delivery note", "transportation", "3pl", "tms"]
+  - order: 6
+    flow: interfaces_edi
+    keywords: ["interface", "edi", "integration", "transmission", "rapidresponse", "maestro", "asn"]
+  - order: 7
+    flow: manufacturing
+    keywords: ["manufacturing", "work order", "mfg", "gme", "bom", "end ticket", "mrp"]
+  - order: 8
+    flow: access_security
+    keywords: ["access", "security", "login", "role", "usms"]
+  - order: 9
+    flow: reporting
+    keywords: ["report", "das", "data access studio"]
+

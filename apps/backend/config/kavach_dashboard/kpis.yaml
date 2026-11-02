@@ -1,0 +1,112 @@
+# KPI catalogue — adding/removing a KPI = edit this file only
+defaults:
+  go_live_date: "2026-08-15"
+  week_start: monday
+  exclude_incident_states: ["Canceled"]
+  exclude_change_states: ["Canceled", "New"]
+  transition_week_excluded: true
+  rolling_window_weeks: 4
+
+kpis:
+  - id: kpi1_automation_coverage
+    enabled: true
+    order: 1
+    title: "Automation coverage of the portfolio"
+    calculator: AutomationCoverageKpi
+    sources: [kavach_postgres]
+    data_label: DEMO
+    params: {}
+
+  - id: kpi2_scenario_coverage
+    enabled: true
+    order: 2
+    title: "Scenario coverage depth"
+    calculator: ScenarioCoverageKpi
+    sources: [kavach_postgres, servicenow]
+    data_label: MIXED
+    params: {}
+
+  - id: kpi3_defect_detection
+    enabled: true
+    order: 3
+    title: "Defect Detection Percentage per release"
+    calculator: DefectDetectionKpi
+    sources: [kavach_postgres, servicenow]
+    data_label: MIXED
+    params: {}
+
+  - id: kpi4_prod_before_after
+    enabled: true
+    order: 4
+    title: "PROD defects before vs after automation"
+    calculator: ProdBeforeAfterKpi
+    sources: [servicenow]
+    data_label: REAL
+    params: {}
+
+  - id: kpi5_wow_mom
+    enabled: true
+    order: 5
+    title: "Defects WoW / MoM after automation"
+    calculator: DefectsWowMomKpi
+    sources: [kavach_postgres, servicenow]
+    data_label: MIXED
+    params: {}
+
+  - id: kpi6_change_failure_rate
+    enabled: true
+    order: 6
+    title: "Change failure rate & change-related incidents"
+    calculator: ChangeFailureRateKpi
+    sources: [servicenow]
+    data_label: REAL
+    params:
+      link_window_hours: 24
+      incident_priorities: ["1", "2"]
+      match_on: assignment_group
+      link_strategy: window_group  # window_group | caused_by_change
+      footnote: "Method: P1/P2 incident in same group within 24h of a change (estimated)"
+
+  - id: kpi7_time_to_fix
+    enabled: true
+    order: 7
+    title: "Mean time to fix"
+    calculator: TimeToFixKpi
+    sources: [servicenow, kavach_postgres]
+    data_label: MIXED
+    params: {}
+
+  - id: kpi8_qa_hours_saved
+    enabled: true
+    order: 8
+    title: "QA effort/hours saved"
+    calculator: QaHoursSavedKpi
+    sources: [kavach_postgres]
+    data_label: PLACEHOLDER
+    params:
+      manual_minutes_per_test: 20
+      qa_hourly_rate_usd: 40
+      eligible_results: ["Passed", "Failed"]
+      exclude_environments: ["PROD"]
+
+  - id: kpi9_cost_of_quality
+    enabled: true
+    order: 9
+    title: "Cost of quality avoided"
+    calculator: CostOfQualityKpi
+    sources: [kavach_postgres]
+    data_label: PLACEHOLDER
+    params:
+      prod_fix_cost_usd: 5000
+      preprod_fix_cost_usd: 500
+      infra_cost_per_month_usd: 150
+
+  - id: kpi10_weekly_impact
+    enabled: true
+    order: 10
+    title: "Kavach weekly impact"
+    calculator: WeeklyImpactKpi
+    sources: [kavach_postgres, servicenow]
+    data_label: MIXED
+    params: {}
+

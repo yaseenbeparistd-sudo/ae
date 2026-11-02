@@ -15,11 +15,13 @@ import {
   Play,
   Calendar,
   DollarSign,
-  LifeBuoy
+  LifeBuoy,
+  TrendingUp
 } from "lucide-react";
 
 const APP_TABS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "business-dashboard", label: "Business KPIs", icon: TrendingUp },
   { id: "health", label: "Health Monitor", icon: Activity },
   { id: "apps", label: "Applications", icon: AppWindow },
   { id: "test-cases", label: "Test Cases", icon: TestTubes },
@@ -89,7 +91,7 @@ export default function KavachaLayout({ children }: { children: React.ReactNode 
     );
   }
 
-  const appName = app?.name === "Kavacha" ? "NextGen2" : (app?.name || "NextGen2");
+  const appName = app?.name || "NextGen2";
   const dbStatus = kavachaHealth?.status || "checking";
   const isDbConnected = dbStatus === "connected";
 
@@ -198,7 +200,7 @@ export default function KavachaLayout({ children }: { children: React.ReactNode 
                   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(kavachaHealth || {}, null, 2));
                   const a = document.createElement("a");
                   a.setAttribute("href", dataStr);
-                  a.setAttribute("download", "kavacha-health.json");
+                  a.setAttribute("download", "nextgen2-health.json");
                   document.body.appendChild(a);
                   a.click();
                   a.remove();

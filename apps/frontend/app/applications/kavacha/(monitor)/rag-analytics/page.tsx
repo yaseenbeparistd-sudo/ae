@@ -12,7 +12,7 @@ export default function KavachaRagAnalyticsPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: 'var(--ov-font-size-xl)', fontWeight: 'var(--ov-font-weight-bold)', color: 'var(--ov-text-primary)', margin: 0 }}>
-            Kavacha Security & Access Analytics
+            NextGen2 Security & Access Analytics
           </h2>
           <p style={{ fontSize: 'var(--ov-font-size-sm)', color: 'var(--ov-text-muted)', margin: '4px 0 0 0' }}>
             IAM telemetry, credential authorization checks, and zero-trust policy evaluations

@@ -66,9 +66,9 @@ tests/          Unit, integration, and frontend tests
 
 ## Environment Variables
 See `.env.example` for all configurable values.
-## Setting up the Kavacha Database (NextGen2)
+## Setting up the NextGen2 Database
 
-The Kavacha dashboard relies on a separate PostgreSQL database named `nextgen2`. To set this up locally:
+The NextGen2 dashboard relies on a separate PostgreSQL database named `nextgen2`. To set this up locally:
 
 1. Ensure your PostgreSQL server is running locally on port `5432`.
 2. Connect to your PostgreSQL server (e.g., via pgAdmin or `psql`) with your root user (e.g., `postgres` / `Yaseen786#`).
@@ -79,3 +79,38 @@ The Kavacha dashboard relies on a separate PostgreSQL database named `nextgen2`.
 4. Connect to the `nextgen2` database.
 5. Run your seed script (e.g., `nextgen2_seed_50_rows.sql`) to create the tables and populate the initial dashboard data.
 6. The FastAPI backend will now automatically query this database to render the dashboard!
+
+## Kavach Business Dashboard (Leadership View)
+
+The Kavach Business Dashboard measures whether test automation is actively improving application health (fewer production defects, fewer failed changes, faster fixes, and avoided costs).
+
+### Architecture
+- **CQRS Read Model**: Calculations run in background via streaming worker; dashboard reads only pre-computed snapshots from Redis serving cache (< 15ms response).
+- **Zero Raw ServiceNow Storage**: Memory-bounded streaming generators process records on the fly without storing ticket descriptions or sensitive payloads.
+- **Dual Storage**: Redis for fast UI serving + PostgreSQL for durable historical snapshots.
+- **100% Config-Driven**: All 10 KPIs, financial rates, keyword classification rules, and UI layout live in `apps/backend/config/kavach_dashboard/*.yaml`.
+
+### CLI Commands
+Validate configuration:
+```bash
+python apps/backend/app/services/kavach_dashboard/cli.py validate-config
+```
+
+Trigger an on-demand refresh cycle:
+```bash
+python apps/backend/app/services/kavach_dashboard/cli.py refresh
+```
+
+Run golden unit test suite:
+```bash
+python tests/test_kavach_kpis.py
+```
+
+### Dashboard Access
+- URL: `http://localhost:3000/applications/kavacha/business-dashboard`
+- Navigation: Click **"Business KPIs"** tab or the **"Business KPIs →"** button on the NextGen2 Overview header.
+
+### Documentation & Specifications
+- Architecture Specification: [`docs/architecture.md`](docs/architecture.md)
+- KPI Definitions & Formulas: [`docs/kpi_definitions.md`](docs/kpi_definitions.md)
+- Architecture Decision Record: [`docs/adr/ADR-001-kavach-business-dashboard.md`](docs/adr/ADR-001-kavach-business-dashboard.md)

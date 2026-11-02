@@ -24,10 +24,10 @@ interface DistributedTrace {
 
 const MOCK_TRACES: DistributedTrace[] = [
   { traceId: 'tr-8f92a10b4c2e', rootService: 'netra-gateway', endpoint: 'POST /v1/query/rag', duration: '284ms', durationMs: 284, spans: 14, errorSpans: 0, timestamp: '18s ago', status: 'healthy' },
-  { traceId: 'tr-7a19c34f2d1e', rootService: 'kavacha-iam', endpoint: 'POST /oauth/token', duration: '48ms', durationMs: 48, spans: 6, errorSpans: 0, timestamp: '34s ago', status: 'healthy' },
+  { traceId: 'tr-7a19c34f2d1e', rootService: 'nextgen2-iam', endpoint: 'POST /oauth/token', duration: '48ms', durationMs: 48, spans: 6, errorSpans: 0, timestamp: '34s ago', status: 'healthy' },
   { traceId: 'tr-6c81d22e9a5b', rootService: 'blackline-recon', endpoint: 'POST /batch/sync', duration: '840ms', durationMs: 840, spans: 24, errorSpans: 1, timestamp: '1m ago', status: 'warning' },
   { traceId: 'tr-5e42b11a8c3d', rootService: 'netra-embedder', endpoint: 'POST /embed/vector', duration: '94ms', durationMs: 94, spans: 8, errorSpans: 0, timestamp: '2m ago', status: 'healthy' },
-  { traceId: 'tr-4d91a88b7c2f', rootService: 'kavacha-vault', endpoint: 'GET /secrets/db-creds', duration: '410ms', durationMs: 410, spans: 12, errorSpans: 2, timestamp: '3m ago', status: 'critical' },
+  { traceId: 'tr-4d91a88b7c2f', rootService: 'nextgen2-vault', endpoint: 'GET /secrets/db-creds', duration: '410ms', durationMs: 410, spans: 12, errorSpans: 2, timestamp: '3m ago', status: 'critical' },
   { traceId: 'tr-3c72b99a6c1e', rootService: 'blackline-api', endpoint: 'GET /reports/ledger', duration: '124ms', durationMs: 124, spans: 10, errorSpans: 0, timestamp: '4m ago', status: 'healthy' },
 ];
 

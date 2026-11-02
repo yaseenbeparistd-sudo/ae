@@ -1,0 +1,50 @@
+# Data source connections — secrets via env vars only
+sources:
+  servicenow:
+    enabled: true
+    type: servicenow_rest
+    base_url_env: SNOW_BASE_URL
+    auth:
+      type: basic
+      username_env: SNOW_USERNAME
+      password_env: SNOW_PASSWORD
+    http:
+      timeout_seconds: 60
+      page_size: 1000
+      max_retries: 5
+      backoff_seconds: 2
+      rate_limit_per_minute: 60
+    tables:
+      incident:
+        enabled: true
+        path: /api/bai/netra_analytics_api/incident
+      change_request:
+        enabled: true
+        path: /api/bai/netra_analytics_api/change_request
+      problem:
+        enabled: true
+        path: /api/bai/netra_analytics_api/problem
+      sc_req_item:
+        enabled: false
+        path: /api/bai/netra_analytics_api/sc_req_item
+    field_map:
+      number: number
+      opened_at: opened_at
+      closed_at: closed_at
+      state: state
+      priority: priority
+      assignment_group: assignment_group
+      short_description: title
+      start_date: start_date
+      end_date: end_date
+
+  kavach_postgres:
+    enabled: true
+    type: postgres
+    dsn_env: KAVACH_PG_DSN
+    schema_env: KAVACH_PG_SCHEMA
+    pool:
+      min_size: 1
+      max_size: 5
+    statement_timeout_seconds: 120
+

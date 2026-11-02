@@ -145,7 +145,7 @@ export default function LogsPage() {
               >
                 <option value="ALL">All Applications</option>
                 <option value="netra">Netra</option>
-                <option value="kavacha">Kavacha</option>
+                <option value="kavacha">NextGen2</option>
                 <option value="blackline">Blackline</option>
               </select>
             </div>
@@ -205,7 +205,7 @@ export default function LogsPage() {
                     </td>
                     <td style={{ padding: '8px 16px' }}>
                       <span style={{ color: log.app === 'netra' ? '#c084fc' : log.app === 'kavacha' ? '#38bdf8' : '#34d399', fontWeight: 600 }}>
-                        {log.app}
+                        {log.app === 'kavacha' ? 'NextGen2' : log.app}
                       </span>
                     </td>
                     <td style={{ padding: '8px 16px', color: 'var(--ov-text-secondary)' }}>

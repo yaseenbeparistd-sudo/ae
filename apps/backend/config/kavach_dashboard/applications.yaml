@@ -1,0 +1,39 @@
+# Application filter configuration
+# Each application maps to ServiceNow app name + assignment groups
+applications:
+  - id: jde
+    display_name: JD Edwards
+    enabled: true
+    servicenow_app_name: "JD Edwards"  # TO BE CONFIRMED by owner
+    assignment_groups: []               # TO BE PROVIDED by owner
+    region_map: {}
+    kavach_application_id: null         # TO BE PROVIDED by owner
+    go_live_date: "2026-08-15"
+
+  - id: mdm
+    display_name: MDM
+    enabled: false
+    servicenow_app_name: "MDM"
+    assignment_groups: []
+    region_map: {}
+    kavach_application_id: null
+    go_live_date: "2026-08-15"
+
+  - id: baxter_com
+    display_name: Baxter.com
+    enabled: false
+    servicenow_app_name: "Baxter.com"
+    assignment_groups: []
+    region_map: {}
+    kavach_application_id: null
+    go_live_date: "2026-08-15"
+
+  - id: netra
+    display_name: Netra
+    enabled: false
+    servicenow_app_name: "Netra"
+    assignment_groups: []
+    region_map: {}
+    kavach_application_id: null
+    go_live_date: "2026-08-15"
+

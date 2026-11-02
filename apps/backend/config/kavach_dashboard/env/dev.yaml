@@ -1,0 +1,15 @@
+# Dev environment overlay
+app:
+  environment: dev
+  log_level: DEBUG
+
+refresh:
+  enabled: true
+  frequency_minutes: 15
+  max_run_minutes: 10
+
+sources:
+  servicenow:
+    http:
+      page_size: 250
+

@@ -1,0 +1,15 @@
+# Kavach Business Dashboard — Runtime Configuration
+app:
+  name: kavach-business-dashboard
+  timezone: UTC
+  log_level: INFO
+
+refresh:
+  enabled: true
+  frequency_minutes: 60
+  max_run_minutes: 30
+  lock_key: "kavach:lock:refresh"
+
+retention:
+  keep_runs: 3
+

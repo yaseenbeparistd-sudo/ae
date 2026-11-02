@@ -21,6 +21,7 @@ from app.api.dashboard import router as dashboard_router
 from app.api.infrastructure import router as infrastructure_router
 from app.api.alerts import router as alerts_router
 from app.api.kavacha import router as kavacha_router
+from app.api.kavach_dashboard_api import router as kavach_dashboard_router
 
 settings = get_settings()
 
@@ -67,7 +68,8 @@ app.include_router(logs_router, prefix=f"{prefix}", tags=["Logs"])
 app.include_router(infrastructure_router, prefix=f"{prefix}", tags=["Infrastructure"])
 app.include_router(connectors_router, prefix=f"{prefix}/connectors", tags=["Connectors"])
 app.include_router(alerts_router, prefix=f"{prefix}/alerts", tags=["Alerts"])
-app.include_router(kavacha_router, prefix=f"{prefix}/kavacha", tags=["Kavacha"]) # Trigger reload
+app.include_router(kavacha_router, prefix=f"{prefix}/kavacha", tags=["NextGen2"])
+app.include_router(kavach_dashboard_router, prefix=f"{prefix}/kavach-dashboard", tags=["Kavach Business Dashboard"])
 
 
 # ── System Health ────────────────────────────────────────────────────────────

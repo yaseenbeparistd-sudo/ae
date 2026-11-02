@@ -11,7 +11,7 @@ const PRIORITIES = [
 
 const APPS = [
   { key: 'netra', label: 'Netra' },
-  { key: 'kavacha', label: 'Kavacha' },
+  { key: 'kavacha', label: 'NextGen2' },
 ];
 
 const TASKS = [
@@ -66,7 +66,7 @@ const TASKS = [
   {
     id: 'kavacha-payment-flows',
     app: 'kavacha',
-    appLabel: 'Kavacha',
+    appLabel: 'NextGen2',
     rank: 0,
     title: 'End-to-End Payment Flows: 22% Flakiness',
     desc: '480 test failures due to Stripe API timeouts.',
@@ -78,7 +78,7 @@ const TASKS = [
   {
     id: 'kavacha-nextgen2',
     app: 'kavacha',
-    appLabel: 'Kavacha',
+    appLabel: 'NextGen2',
     rank: 1,
     title: 'NextGen2 Regression Cases: Obsolete',
     desc: '120 tests executing against deprecated tables (0 bugs caught in 8 months).',
@@ -90,7 +90,7 @@ const TASKS = [
   {
     id: 'kavacha-ui-time',
     app: 'kavacha',
-    appLabel: 'Kavacha',
+    appLabel: 'NextGen2',
     rank: 1,
     title: 'UI Test Execution: Time Increased 30%',
     desc: 'Current GitHub Actions CI is limited to 4 concurrent workers.',

@@ -1,0 +1,38 @@
+# Dashboard layout — drives which widgets render and in what order
+dashboard:
+  title: "NextGen2 / Kavach – Business Dashboard"
+  default_application: jde
+  filters: [application, period]
+
+  sections:
+    - id: coverage
+      title: Coverage
+      widgets:
+        - { kpi: kpi1_automation_coverage, type: headline_card }
+        - { kpi: kpi1_automation_coverage, type: horizontal_bar, series: per_app }
+        - { kpi: kpi2_scenario_coverage, type: headline_card }
+        - { kpi: kpi2_scenario_coverage, type: stacked_bar, series: per_flow }
+
+    - id: defects
+      title: Defects
+      widgets:
+        - { kpi: kpi3_defect_detection, type: grouped_bar, series: per_release }
+        - { kpi: kpi4_prod_before_after, type: bar_with_marker, marker: go_live }
+        - { kpi: kpi5_wow_mom, type: bar_line_toggle, toggle: [week, month] }
+        - { kpi: kpi10_weekly_impact, type: headline_card }
+        - { kpi: kpi10_weekly_impact, type: weekly_trend }
+
+    - id: change_quality
+      title: Change Quality
+      widgets:
+        - { kpi: kpi6_change_failure_rate, type: before_after_bar }
+        - { kpi: kpi6_change_failure_rate, type: cfr_card }
+        - { kpi: kpi7_time_to_fix, type: before_after_bar }
+        - { kpi: kpi7_time_to_fix, type: backlog_card }
+
+    - id: value
+      title: Value
+      widgets:
+        - { kpi: kpi8_qa_hours_saved, type: bar_cumulative }
+        - { kpi: kpi9_cost_of_quality, type: waterfall }
+

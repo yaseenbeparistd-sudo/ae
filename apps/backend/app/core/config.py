@@ -61,6 +61,7 @@ class Settings(BaseSettings):
         "env_prefix": "ONEVIEW_",
         "env_file": ".env",
         "case_sensitive": False,
+        "extra": "ignore",
     }
 
 

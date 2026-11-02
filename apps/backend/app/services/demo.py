@@ -141,7 +141,7 @@ class DemoDataService:
     def get_health_metrics(self, app_id: str) -> dict[str, Any]:
         configs = {
             "netra": {"cpu_base": 42, "mem_base": 68, "err_base": 1.2, "lat_base": 180},
-            "kavacha": {"cpu_base": 35, "mem_base": 55, "err_base": 3.8, "lat_base": 240},
+            "kavacha": {"cpu_base": 36.5, "mem_base": 88.1, "err_base": 0.4, "lat_base": 0},
             "blackline": {"cpu_base": 28, "mem_base": 45, "err_base": 0.4, "lat_base": 120},
         }
         cfg = configs.get(app_id, configs["netra"])
@@ -149,9 +149,9 @@ class DemoDataService:
         return {
             "_demo": True,
             "application": app_id,
-            "health_state": "warning" if app_id == "kavacha" else "healthy",
-            "health_score": 74 if app_id == "kavacha" else random.randint(85, 96),
-            "uptime_percent": round(random.uniform(99.7, 99.99), 2),
+            "health_state": "healthy",
+            "health_score": 85 if app_id == "kavacha" else random.randint(85, 96),
+            "uptime_percent": 99.99 if app_id == "kavacha" else round(random.uniform(99.7, 99.99), 2),
             "request_rate": round(random.uniform(30, 100), 1),
             "error_rate": round(_jitter(cfg["err_base"]), 2),
             "error_count": random.randint(5, 50),
