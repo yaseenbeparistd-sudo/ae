@@ -350,9 +350,9 @@ export default function KavachaPremiumOverview() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link href="/applications/kavacha/business-dashboard" style={{ textDecoration: 'none' }}>
             <button style={{
-              background: 'rgba(1, 118, 211, 0.1)',
-              border: '1px solid #0176D3',
-              color: '#0176D3',
+              background: '#104F8B',
+              border: '1px solid #104F8B',
+              color: '#FFFFFF',
               padding: '8px 16px',
               borderRadius: '6px',
               fontSize: '13px',
@@ -362,8 +362,9 @@ export default function KavachaPremiumOverview() {
               alignItems: 'center',
               gap: '6px',
               transition: 'all 0.2s',
+              boxShadow: '0 2px 6px rgba(16, 79, 139, 0.25)'
             }}>
-              Business KPIs →
+              Quality Dashboard →
             </button>
           </Link>
           <Link href="/applications/kavacha/health" style={{ textDecoration: 'none' }}>
@@ -660,31 +661,31 @@ export default function KavachaPremiumOverview() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flex: 1, justifyContent: 'flex-start' }}>
             {((Array.isArray(schedulesData?.items) && schedulesData.items.length > 0) ? schedulesData.items : fallbackSchedules).slice(0, 5).map((sch: any) => {
-                const badgeLabel = sch.frequency
-                  ? (sch.frequency.charAt(0).toUpperCase() + sch.frequency.slice(1))
-                  : (sch.next_run_at ? new Date(sch.next_run_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Scheduled');
-                return (
-                  <div key={sch.id} style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                    <span style={{
-                      background: '#D1FAE5',
-                      color: '#065F46',
-                      padding: '4px 14px',
-                      borderRadius: '100px',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      fontFamily: 'monospace',
-                      whiteSpace: 'nowrap',
-                      minWidth: '78px',
-                      textAlign: 'center'
-                    }}>
-                      {badgeLabel}
-                    </span>
-                    <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--ov-text-primary)' }}>
-                      {sch.name} · {sch.app_name} · {sch.environment ? sch.environment.toUpperCase() : 'STAGE'}
-                    </span>
-                  </div>
-                );
-              })}
+              const badgeLabel = sch.frequency
+                ? (sch.frequency.charAt(0).toUpperCase() + sch.frequency.slice(1))
+                : (sch.next_run_at ? new Date(sch.next_run_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Scheduled');
+              return (
+                <div key={sch.id} style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <span style={{
+                    background: '#D1FAE5',
+                    color: '#065F46',
+                    padding: '4px 14px',
+                    borderRadius: '100px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    fontFamily: 'monospace',
+                    whiteSpace: 'nowrap',
+                    minWidth: '78px',
+                    textAlign: 'center'
+                  }}>
+                    {badgeLabel}
+                  </span>
+                  <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--ov-text-primary)' }}>
+                    {sch.name} · {sch.app_name} · {sch.environment ? sch.environment.toUpperCase() : 'STAGE'}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 

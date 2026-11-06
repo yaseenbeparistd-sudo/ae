@@ -21,7 +21,7 @@ import {
 
 const APP_TABS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "business-dashboard", label: "Business KPIs", icon: TrendingUp },
+  { id: "business-dashboard", label: "Quality Dashboard", icon: TrendingUp },
   { id: "health", label: "Health Monitor", icon: Activity },
   { id: "apps", label: "Applications", icon: AppWindow },
   { id: "test-cases", label: "Test Cases", icon: TestTubes },
